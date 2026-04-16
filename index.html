@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fernando Coronel – Soporte Técnico Iztapalapa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0a0a0c;
+      --surface:  #111116;
+      --card:     #16161d;
+      --border:   #222230;
+      --accent:   #f5c518;
+      --accent2:  #1e90ff;
+      --text:     #e8e8f0;
+      --muted:    #7a7a94;
+      --green:    #25D366;
+      --radius:   12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── UTILITIES ─── */
+    .container { max-width: 1140px; margin: auto; padding: 0 20px; }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green);
+      color: #fff; font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem; font-weight: 700; letter-spacing: .5px;
+      padding: 14px 28px; border-radius: 50px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 20px rgba(37,211,102,.3);
+    }
+    .btn-wa:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 32px rgba(37,211,102,.55);
+    }
+    .btn-wa svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+    .tag {
+      display: inline-block;
+      background: rgba(245,197,24,.12);
+      color: var(--accent);
+      border: 1px solid rgba(245,197,24,.25);
+      font-size: .72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 50px;
+    }
+    h2.section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700; line-height: 1.15;
+      margin-top: 10px;
+    }
+    h2.section-title span { color: var(--accent); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,12,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+    .nav-phone {
+      color: var(--muted); font-size: .85rem; text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-phone:hover { color: var(--accent); }
+    @media(max-width:520px){ .nav-phone { display: none; } }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 70% 50%, rgba(30,144,255,.09) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(245,197,24,.06) 0%, transparent 60%);
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+      opacity: .35;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-content .tag { margin-bottom: 20px; }
+    .hero-content h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-content h1 em {
+      font-style: normal; color: var(--accent);
+      text-shadow: 0 0 30px rgba(245,197,24,.4);
+    }
+    .hero-content p {
+      font-size: 1.15rem; color: var(--muted);
+      line-height: 1.6; max-width: 520px;
+      margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .hero-btns .btn-wa { font-size: 1.15rem; padding: 16px 32px; }
+    .hero-note { color: var(--muted); font-size: .85rem; }
+    .hero-note strong { color: var(--accent); }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 40px;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: .82rem; color: var(--muted);
+    }
+    .badge svg { width: 16px; height: 16px; color: var(--accent); fill: var(--accent); }
+    .hero-visual {
+      position: absolute; right: -60px; top: 50%;
+      transform: translateY(-50%);
+      width: 480px; opacity: .12;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @media(max-width:768px){ .hero-visual { display: none; } }
+
+    /* ─── BENEFITS ─── */
+    #beneficios { padding: 80px 0; }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px; margin-top: 40px;
+    }
+    .benefit-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      transition: border-color .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .benefit-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .benefit-card:hover { border-color: rgba(245,197,24,.4); transform: translateY(-4px); }
+    .benefit-card:hover::before { opacity: 1; }
+    .benefit-icon {
+      width: 48px; height: 48px;
+      background: rgba(245,197,24,.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .benefit-icon svg { width: 26px; height: 26px; fill: var(--accent); }
+    .benefit-card h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .benefit-card p { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+
+    /* ─── SERVICIOS ─── */
+    #servicios { padding: 80px 0; background: var(--surface); }
+    .services-intro { max-width: 540px; margin-bottom: 50px; }
+    .services-intro p { color: var(--muted); margin-top: 12px; line-height: 1.6; }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 22px;
+    }
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .cat-card:hover { border-color: rgba(30,144,255,.45); transform: translateY(-4px); }
+    .cat-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(30,144,255,.06), transparent);
+    }
+    .cat-icon {
+      width: 42px; height: 42px;
+      background: rgba(30,144,255,.12);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .cat-icon svg { width: 22px; height: 22px; fill: var(--accent2); }
+    .cat-header h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+    }
+    .cat-items { padding: 10px 0; }
+    .service-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      transition: background .18s;
+    }
+    .service-item:last-child { border-bottom: none; }
+    .service-item:hover { background: rgba(255,255,255,.03); }
+    .service-item .name { font-size: .9rem; color: var(--text); }
+    .service-item .price {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* ─── PAQUETES ─── */
+    #paquetes { padding: 80px 0; }
+    .packs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 44px; max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .pack-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: transform .25s;
+    }
+    .pack-card:hover { transform: translateY(-6px); }
+    .pack-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(145deg, #191910, var(--card));
+      box-shadow: 0 0 40px rgba(245,197,24,.15);
+    }
+    .pack-badge {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--accent); color: #000;
+      font-family: 'Rajdhani', sans-serif; font-size: .7rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 50px;
+    }
+    .pack-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .pack-price {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 3rem; font-weight: 700;
+      color: var(--accent); line-height: 1;
+      margin: 16px 0;
+    }
+    .pack-price span { font-size: 1.1rem; color: var(--muted); }
+    .pack-desc { color: var(--muted); font-size: .88rem; line-height: 1.55; margin-bottom: 20px; }
+    .pack-features { list-style: none; margin-bottom: 28px; }
+    .pack-features li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0; font-size: .9rem; color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .pack-features li:last-child { border-bottom: none; }
+    .pack-features li svg { width: 16px; height: 16px; fill: var(--accent); flex-shrink: 0; }
+
+    /* ─── TESTIMONIOS ─── */
+    #testimonios { padding: 80px 0; background: var(--surface); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px; margin-top: 44px;
+    }
+    .testi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: border-color .25s, transform .25s;
+    }
+    .testi-card:hover { border-color: rgba(245,197,24,.3); transform: translateY(-3px); }
+    .stars { display: flex; gap: 4px; margin-bottom: 14px; }
+    .stars svg { width: 17px; height: 17px; fill: var(--accent); }
+    .testi-card blockquote {
+      color: var(--text); font-size: .95rem; line-height: 1.65;
+      font-style: italic; margin-bottom: 18px;
+    }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem;
+      color: #000; flex-shrink: 0;
+    }
+    .testi-name { font-weight: 600; font-size: .9rem; }
+    .testi-loc { color: var(--muted); font-size: .78rem; }
+
+    /* ─── CTA ─── */
+    #cta {
+      padding: 100px 0;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(245,197,24,.08) 0%, transparent 70%);
+    }
+    #cta .container { position: relative; z-index: 1; }
+    #cta h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700; margin-bottom: 16px;
+    }
+    #cta h2 span { color: var(--accent); }
+    #cta p { color: var(--muted); font-size: 1.1rem; max-width: 480px; margin: 0 auto 36px; line-height: 1.6; }
+    #cta .btn-wa { font-size: 1.2rem; padding: 18px 38px; }
+    #cta .cta-note { margin-top: 18px; color: var(--muted); font-size: .85rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 40px 0 28px;
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      justify-content: space-between; align-items: flex-start;
+    }
+    .footer-brand .nav-logo { font-size: 1.35rem; }
+    .footer-brand p {
+      color: var(--muted); font-size: .85rem;
+      margin-top: 8px; max-width: 280px; line-height: 1.5;
+    }
+    .footer-info h4 {
+      font-family: 'Rajdhani', sans-serif; font-size: 1rem;
+      font-weight: 700; color: var(--accent); margin-bottom: 12px;
+    }
+    .footer-info ul { list-style: none; }
+    .footer-info li {
+      display: flex; align-items: flex-start; gap: 9px;
+      color: var(--muted); font-size: .85rem; line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .footer-info li svg { width: 15px; height: 15px; fill: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .footer-info a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-info a:hover { color: var(--accent); }
+    .footer-bottom {
+      margin-top: 32px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { color: var(--muted); font-size: .78rem; }
+
+    /* ─── FLOATING WA ─── */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      width: 60px; height: 60px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 24px rgba(37,211,102,.5);
+      text-decoration: none;
+      animation: pulse 2.4s ease-in-out infinite;
+      transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.1); animation: none; }
+    .wa-float svg { width: 32px; height: 32px; fill: #fff; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,.5); }
+      50%       { box-shadow: 0 4px 40px rgba(37,211,102,.85); }
+    }
+    .wa-float-label {
+      position: fixed; bottom: 36px; right: 98px; z-index: 200;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: .82rem; color: var(--text);
+      white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(0,0,0,.4);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
+    }
+    .wa-float:hover + .wa-float-label,
+    .wa-float-label:hover { opacity: 1; }
+
+    /* ─── SCROLL REVEAL ─── */
+    [data-reveal] {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    [data-reveal].visible { opacity: 1; transform: none; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo"><span>⚡</span>Reparación de computadoras Coronel</a>
+    <div class="nav-cta">
+      <a href="tel:5631515692" class="nav-phone">📞 56 3151 5692</a>
+      <a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank" class="btn-wa" style="padding:9px 18px; font-size:.9rem;">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="container">
+    <div class="hero-content">
+      <span class="tag">Servicio a domicilio · Iztapalapa · CDMX</span>
+      <h1>¿Tu computadora está <em>lenta</em> o <em>fallando</em>?</h1>
+      <p>Soporte técnico profesional a domicilio en Iztapalapa. Diagnóstico, reparación y mantenimiento con precios accesibles y atención el mismo día.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Cotiza por WhatsApp ahora
+        </a>
+        <span class="hero-note">⚡ Respuesta en <strong>menos de 10 min</strong></span>
+      </div>
+      <div class="hero-badges">
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>Cotización gratis</span>
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>A domicilio</span>
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>Mismo día</span>
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Garantía de servicio</span>
+      </div>
+    </div>
+  </div>
+  <!-- SVG decoration -->
+  <svg class="hero-visual" viewBox="0 0 480 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="30" width="400" height="260" rx="16" fill="white" fill-opacity=".05" stroke="white" stroke-opacity=".12" stroke-width="1.5"/>
+    <rect x="60" y="55" width="360" height="210" rx="8" fill="white" fill-opacity=".04"/>
+    <rect x="60" y="55" width="360" height="28" rx="8" fill="white" fill-opacity=".07"/>
+    <circle cx="76" cy="69" r="5" fill="#ff5f57"/>
+    <circle cx="96" cy="69" r="5" fill="#febc2e"/>
+    <circle cx="116" cy="69" r="5" fill="#28c840"/>
+    <rect x="75" y="100" width="120" height="80" rx="6" fill="white" fill-opacity=".05"/>
+    <rect x="75" y="100" width="120" height="14" rx="6" fill="#1e90ff" fill-opacity=".4"/>
+    <rect x="210" y="100" width="196" height="37" rx="6" fill="white" fill-opacity=".05"/>
+    <rect x="210" y="144" width="90" height="37" rx="6" fill="white" fill-opacity=".05"/>
+    <rect x="307" y="144" width="99" height="37" rx="6" fill="#f5c518" fill-opacity=".2"/>
+    <rect x="75" y="195" width="330" height="12" rx="4" fill="white" fill-opacity=".05"/>
+    <rect x="75" y="214" width="240" height="10" rx="4" fill="white" fill-opacity=".04"/>
+    <rect x="75" y="230" width="180" height="10" rx="4" fill="white" fill-opacity=".04"/>
+    <rect x="160" y="290" width="160" height="18" rx="4" fill="white" fill-opacity=".08"/>
+    <rect x="200" y="308" width="80" height="55" rx="2" fill="white" fill-opacity=".05"/>
+    <rect x="140" y="363" width="200" height="14" rx="4" fill="white" fill-opacity=".1"/>
+  </svg>
+</section>
+
+<div class="divider"></div>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="container">
+    <div data-reveal>
+      <span class="tag">¿Por qué elegirnos?</span>
+      <h2 class="section-title" style="margin-top:10px;">Soporte técnico que <span>realmente funciona</span></h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card" data-reveal>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M13 2.05v2.02c3.95.49 7 3.85 7 7.93 0 3.21-1.81 6-4.72 7.72L13 17v5h5l-1.22-1.22C19.91 19.07 22 15.76 22 12c0-5.18-3.94-9.45-9-9.95zM11 2.05C5.95 2.55 2 6.82 2 12c0 3.76 2.09 7.07 5.22 8.78L6 22h5V2.05z"/></svg></div>
+        <h3>Atención Rápida</h3>
+        <p>Respondemos en menos de 10 minutos y agendamos visita el mismo día.</p>
+      </div>
+      <div class="benefit-card" data-reveal>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <h3>A Domicilio</h3>
+        <p>Vamos a tu hogar u oficina. Sin traslados, sin esperas, comodidad total.</p>
+      </div>
+      <div class="benefit-card" data-reveal>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S14.93 14 13 14c-1.94 0-3.5-1.57-3.5-3.5S11.07 7 13 7zm-7 11c0-2 4-3.1 7-3.1s7 1.1 7 3.1H6z"/></svg></div>
+        <h3>Cotización Gratis</h3>
+        <p>Diagnóstico sin costo ni compromiso. Conoce el precio antes de decidir.</p>
+      </div>
+      <div class="benefit-card" data-reveal>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+        <h3>Precios Accesibles</h3>
+        <p>Tarifas justas y transparentes. Calidad profesional sin pagar de más.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="container">
+    <div class="services-intro" data-reveal>
+      <span class="tag">Nuestros servicios</span>
+      <h2 class="section-title">Todo lo que tu equipo <span>necesita</span></h2>
+      <p>Servicio profesional de reparación y mantenimiento para laptops y computadoras de escritorio en Iztapalapa.</p>
+    </div>
+    <div class="cat-grid">
+
+      <!-- DIAGNÓSTICO -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+          <h3>Diagnóstico</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Básico</span><span class="price">$100</span></div>
+          <div class="service-item"><span class="name">Completo</span><span class="price">$200</span></div>
+        </div>
+      </div>
+
+      <!-- SISTEMA OPERATIVO -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg></div>
+          <h3>Sistema Operativo</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Instalación de Windows</span><span class="price">$500</span></div>
+          <div class="service-item"><span class="name">Formateo + optimización</span><span class="price">$600</span></div>
+        </div>
+      </div>
+
+      <!-- HARDWARE -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-2V7c0-1.1-.9-2-2-2h-2V3h-2v2h-2V3H9v2H7c-1.1 0-2 .9-2 2v2H3v2h2v2H3v2h2v2c0 1.1.9 2 2 2h2v2h2v-2h2v2h2v-2h2c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2zm-4 6H7V7h10v10z"/></svg></div>
+          <h3>Hardware</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Cambio de RAM</span><span class="price">$200</span></div>
+          <div class="service-item"><span class="name">Cambio de disco</span><span class="price">$300</span></div>
+          <div class="service-item"><span class="name">Limpieza interna</span><span class="price">$400</span></div>
+        </div>
+      </div>
+
+      <!-- MANTENIMIENTO -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></div>
+          <h3>Mantenimiento</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Preventivo</span><span class="price">$400</span></div>
+          <div class="service-item"><span class="name">Correctivo</span><span class="price">$600</span></div>
+        </div>
+      </div>
+
+      <!-- SOFTWARE -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg></div>
+          <h3>Software</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Instalación de programas</span><span class="price">$200</span></div>
+          <div class="service-item"><span class="name">Eliminación de virus</span><span class="price">$400</span></div>
+          <div class="service-item"><span class="name">Optimización</span><span class="price">$300</span></div>
+        </div>
+      </div>
+
+      <!-- REDES -->
+      <div class="cat-card" data-reveal>
+        <div class="cat-header">
+          <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></div>
+          <h3>Redes</h3>
+        </div>
+        <div class="cat-items">
+          <div class="service-item"><span class="name">Configuración WiFi</span><span class="price">$300</span></div>
+          <div class="service-item"><span class="name">Configuración de router</span><span class="price">$300</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA mid-services -->
+    <div style="text-align:center; margin-top:44px;" data-reveal>
+      <a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank" class="btn-wa" style="font-size:1.05rem;">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        ¿No ves tu problema? Escríbenos
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAQUETES -->
+<section id="paquetes">
+  <div class="container" style="text-align:center;">
+    <div data-reveal>
+      <span class="tag">Paquetes especiales</span>
+      <h2 class="section-title" style="margin:10px auto 8px;">Ahorra más con nuestros <span>combos</span></h2>
+      <p style="color:var(--muted); max-width:480px; margin:0 auto; line-height:1.6;">Combina servicios y paga menos. Los paquetes más populares con todo lo que necesita tu equipo.</p>
+    </div>
+    <div class="packs-grid">
+
+      <div class="pack-card" data-reveal>
+        <div class="pack-name">Paquete PRO</div>
+        <div class="pack-price">$700 <span>MXN</span></div>
+        <p class="pack-desc">Ideal para una computadora con problemas de rendimiento y sistema.</p>
+        <ul class="pack-features">
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Diagnóstico completo</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Instalación de Windows</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Instalación de programas</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Optimización del sistema</li>
+        </ul>
+        <a href="https://wa.me/525631515692?text=Hola%2C%20me%20interesa%20el%20Paquete%20PRO%20de%20%24700" target="_blank" class="btn-wa" style="width:100%; justify-content:center;">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Quiero este paquete
+        </a>
+      </div>
+
+      <div class="pack-card featured" data-reveal>
+        <span class="pack-badge">⭐ Más recomendado</span>
+        <div class="pack-name">Paquete FULL</div>
+        <div class="pack-price">$900 <span>MXN</span></div>
+        <p class="pack-desc">Solución integral: tu equipo queda como nuevo, limpio y protegido.</p>
+        <ul class="pack-features">
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Todo lo del Paquete PRO</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Limpieza interna completa</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Eliminación de virus</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Mantenimiento preventivo</li>
+          <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Configuración de red WiFi</li>
+        </ul>
+        <a href="https://wa.me/525631515692?text=Hola%2C%20me%20interesa%20el%20Paquete%20FULL%20de%20%24900" target="_blank" class="btn-wa" style="width:100%; justify-content:center;">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Quiero el Paquete FULL
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="container">
+    <div style="text-align:center;" data-reveal>
+      <span class="tag">Lo que dicen los clientes</span>
+      <h2 class="section-title" style="margin-top:10px;">Miles de equipos <span>reparados</span></h2>
+    </div>
+    <div class="testi-grid">
+
+      <div class="testi-card" data-reveal>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <blockquote>"Excelente servicio, mi laptop quedó como nueva. Llegó puntual, muy profesional y el precio fue muy accesible. Totalmente recomendado."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">MG</div>
+          <div>
+            <div class="testi-name">María González</div>
+            <div class="testi-loc">Iztapalapa, CDMX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card" data-reveal>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <blockquote>"Mi PC tardaba 20 minutos en encender, con el formateo y la limpieza interna ahora arranca en segundos. El servicio a domicilio es muy conveniente."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">JR</div>
+          <div>
+            <div class="testi-name">Jorge Ramírez</div>
+            <div class="testi-loc">Santa Martha Acatitla</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card" data-reveal>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <blockquote>"Me salvó el trabajo, llegó rápido y encontró el problema en minutos. Eliminó el virus y quedó todo funcionando perfecto. 100% recomendado."</blockquote>
+        <div class="testi-author">
+          <div class="testi-avatar">LC</div>
+          <div>
+            <div class="testi-name">Laura Castro</div>
+            <div class="testi-loc">Iztapalapa, CDMX</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container" data-reveal>
+    <span class="tag">¡Actúa ahora!</span>
+    <h2>¿Listo para <span>reparar</span> tu equipo?</h2>
+    <p>No esperes más. Un técnico profesional puede estar en tu puerta hoy mismo.</p>
+    <a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank" class="btn-wa">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Escríbenos por WhatsApp ahora
+    </a>
+    <p class="cta-note">📍 Servicio a domicilio en Iztapalapa y zonas aledañas</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo"><span>⚡</span> TécnicoPC</a>
+        <p>Fernando Coronel – Soporte Técnico. Tu solución confiable en Iztapalapa.</p>
+      </div>
+      <div class="footer-info">
+        <h4>Contacto</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            <a href="tel:5631515692">56 3151 5692</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            <a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank">WhatsApp</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Sta. Martha 13, Santa María del Monte, Iztapalapa, 09850 CDMX
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Servicio a domicilio disponible
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Fernando Coronel – Soporte Técnico. Iztapalapa, CDMX.</p>
+      <p style="color:var(--muted);">Diseño profesional · Servicio garantizado</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WA BUTTON -->
+<a href="https://wa.me/525631515692?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20reparaci%C3%B3n%20de%20computadoras" target="_blank" class="wa-float" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.128.559 4.122 1.535 5.847L.057 23.882l6.196-1.626A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.861 0-3.601-.507-5.093-1.387l-.363-.217-3.68.965.984-3.585-.236-.372A9.951 9.951 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+<div class="wa-float-label">💬 Escríbenos ahora</div>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Stagger children inside grids
+  document.querySelectorAll('.benefits-grid, .cat-grid, .testi-grid, .packs-grid').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => {
+      child.style.transitionDelay = `${i * 80}ms`;
+    });
+  });
+</script>
+</body>
+</html>
